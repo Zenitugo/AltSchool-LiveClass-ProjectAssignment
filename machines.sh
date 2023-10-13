@@ -4,8 +4,6 @@ set -e
 
 
 vagrant ssh slave <<EOF
-    sudo apt -y install sshpass
-    sudo apt update
     echo -e "\n\nUpdating Apt Packages and upgrading latest patches\n"
     sudo apt update -y
     sudo apt install apache2 -y
@@ -46,8 +44,6 @@ vagrant ssh master <<EOF
 EOF
 
 vagrant ssh master <<EOF
-    sudo apt -y install sshpass
-    sudo apt update
     echo -e "\n\nUpdating Apt Packages and upgrading latest patches\n"
     sudo apt update -y
     sudo apt install apache2 -y

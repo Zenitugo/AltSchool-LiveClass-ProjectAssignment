@@ -4,15 +4,30 @@
 ## STEP 1: VAGRANTFILE 
 
 The vagrant file was created with `vagrant init` command.
-In the file I created a virtual instance named master and slave.
-I also added some configuration to make it work properly, such as setting up hostname, specifying  a private Ip address **(192.168.56.106 for master and 192.168.56.107 for slave)** and a base box for the VM and also including some commands to run while the shell is being provisioned.
+In the file I created two virtual instance named master and slave.
+I also added some configuration to make it work properly, such as setting up hostname, specifying  a private Ip address **(192.168.56.106 for master and 192.168.56.107 for slave)** and a base box**(ubuntu/focal64)** for the VM and also including some commands to run while the shell is being provisioned. This commands includes:
+
+- installing `sshpass` to allow to run SSH using the keyboard-interactive password authentication mode, but in a non-interactive way.
+
+- installing `avahi-daemon` and `libnss-mdns`: avahi-daemon was installed to let the master and slave machine find and communicate with each other easily since they are on the same network **(192.168.56.1/24)** while `libnss-mdns` was installed because it can translate user names into ip address. This is because if I ssh into vagrant@slave, it will know ther sever I am trying to reach and bring it up.
+
+
+- Also `apt update` and `apt upgrade was done`
 
 
 ## STEP 2: machines.sh
 
-This script contains the commands for the installation of LAMP STACK for the Virtual machine instances.
+This script contains the commands for the installation of LAMP STACK for the Virtual machine instances **(master and slave)**.
 
-It also contains the User management details of the master VM instance
+This means I installed:
+- Apache2 web server.
+- MySQL database
+- PHP and its dependencies.
+- Enabling modules
+- Restarting apche
+
+
+**It also contains the User management details of the master VM instance**
 
 - A user called altschool was created
 
@@ -67,5 +82,7 @@ The next thing I did was to use an if statement to check if the vagrant file was
 
 If the file was present, the commmand given was to do `vagrant up slave` else it should echo `file not present`.
 
-After it vagrants up, I gave an instruction to run the the bash script machine.sh on the slave machine, then the same for the master and I gave the last instruction to ssh into the master so that I from the Master instance I can ssh into the slave instance.
+After it vagrants up, I gave an instruction to run the the **bash script machine.sh** on the slave machine, then the same instruction for the master node **(vagrant up, bash $ lamp and vagrant ssh master)**.
+
+I gave the last instruction to ssh into the master so that I from the Master instance I can ssh into the slave instance.
 
