@@ -33,7 +33,7 @@ vagrant ssh master <<EOF
     echo -e "ruby\nruby\n" | sudo passwd altschool
     sudo usermod -aG sudo altschool
     sudo -u altschool ssh-keygen -t rsa -b 4096 -f /home/altschool/.ssh/id_rsa -N "" 
-    sudo mkdir /home/altschool/accesskeys/altschoolkey.txt
+    sudo mkdir -p /home/altschool/accesskeys/altschoolkey.txt
     sudo cp /home/altschool/.ssh/id_rsa.pub /home/altschool/accesskeys/keys.txt
     sudo ssh-keygen -t rsa -b 4096 -f /home/vagrant/.ssh/id_rsa -N ""
     sudo cat /home/vagrant/.ssh/id_rsa.pub | sshpass -p "vagrant" ssh -o StrictHostKeyChecking=no vagrant@192.168.56.107 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys'
