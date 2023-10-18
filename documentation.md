@@ -16,14 +16,16 @@ The configurations added to make it work properly were:  setting up a hostname, 
 
 ## STEP 2: machines.sh
 
-This script contains the commands for the installation of LAMP STACK for the Virtual machine instances **(master and slave)**.
+The scripts contains the commands for the installation of LAMP STACK for the Virtual machine instances **(master and slave)**. Machines.sh script for Slave and Machines01.sh for Master
 
-This means I installed:
-- Apache2 web server.
-- MySQL database
-- PHP and its dependencies.
-- Enabling modules
-- Restarting apche
+This means I ran the commands to:
+- Install apache2 web server.
+- Install mysql database
+- Instal php and its dependencies.
+- Enable modules
+- Restart apache
+- Validate PHP
+- Install Nginx on the load balancer VM
 
 
 **It also contains the User management details of the master VM instance**
@@ -69,19 +71,5 @@ The third part of the command `mkdir` will create a .ssh file on slave if the fi
 - 
 
 
-## STEP #: deploy.sh
 
-This is a bash scrip to automate these machines.
-
-Its a simple bash scrip;
-
-The first thing I did was to declare two variables that will hold the vagrantfile and the machines.sh.
-
-The next thing I did was to use an if statement to check if the vagrant file was present. 
-
-If the file was present, the commmand given was to do `vagrant up slave` else it should echo `file not present`.
-
-After it vagrants up, I gave an instruction to run the the **bash script machine.sh** on the slave machine, then the same instruction for the master node **(vagrant up, bash $ lamp and vagrant ssh master)**.
-
-I gave the last instruction to ssh into the master so that I from the Master instance I can ssh into the slave instance.
 

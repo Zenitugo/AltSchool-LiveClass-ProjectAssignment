@@ -16,7 +16,7 @@
     sudo apt install php libapache2-mod-php php-mysql -y
     echo -e "\n\nEnabling Modules\n"
     sudo a2enmod rewrite
-    sudo sed -i 's/DirectoryIndex index.html index.cgi index.pl index.xhtml index.htm/DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.h>
+    sudo sed -i 's/DirectoryIndex index.html index.cgi index.pl index.xhtml index.htm/DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm/' /etc/apache2/mods-enabled/dir.conf
 
  #To Ensure Apache is running and set to start on boot.
     echo -e "\n\nStarting Apache\n"

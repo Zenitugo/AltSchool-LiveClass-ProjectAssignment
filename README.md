@@ -29,3 +29,6 @@
 ## Deliverables:
 A bash script that encapsulates the entire deployment process adhering to the abovementioned specifications.
 Documentation accompanying the script, elucidating the steps and procedures for execution.
+A test PHP page validating the LAMP setup on both nodes 
+A Load balancer using nginx to allow for traffic to the LAMP using the master 
+and the slave nodes.
