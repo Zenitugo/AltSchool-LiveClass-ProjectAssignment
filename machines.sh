@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #Update Apt Package manager
     echo -e "\n\nUpdating Apt Package\n"
     sudo apt update -y

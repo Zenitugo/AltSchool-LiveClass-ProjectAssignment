@@ -36,6 +36,22 @@ Vagrant.configure("2") do |config|
     SHELL
   end
 
+
+  config.vm.define "load-balancer" do |subconfig|
+
+    subconfig.vm.hostname = "load-balancer"
+    subconfig.vm.box = "ubuntu/focal64"
+    subconfig.vm.network "private_network", ip: "192.168.56.108"
+
+    subconfig.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update && sudo apt-get upgrade -y
+    sudo apt-get install -y avahi-daemon libnss-mdns
+    sudo apt install sshpass -y
+   # sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+   # sudo systemctl restart sshd
+    SHELL
+  end
+
     config.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
       vb.cpus = "2"
@@ -50,12 +66,9 @@ cluster='Vagrantfile'
 
 if [ -e $cluster ]
 then
-	echo "Starting 'Slave' VM..."
-        vagrant up slave
-
-        echo "Starting 'Master' VM..."
-         vagrant up master
-	 vagrant ssh  master
+	echo "Starting the VMs..."
+        vagrant up
+	      vagrant ssh  master
 else
 	 echo "File not present"
 fi

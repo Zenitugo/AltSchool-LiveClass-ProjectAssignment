@@ -70,6 +70,30 @@ The third part of the command `mkdir` will create a .ssh file on slave if the fi
 
 - 
 
+## USAGE
 
+- Create the VMs with vagrant up
+- SSH into the master VM
+- Run the Script machines01.sh
+- SSh into Slave using password `vagrant`
+- Run the Script machines.sh
+- exit 
+- ssh into the load-balancer VM
+- Run the script balancer.sh
+
+
+
+## SCREENSHOTS OF THE TEST PHP PAGE
+
+### FOR MASTER VM (192.168.56.107)
+![MASTERVM](./Master%20php%20page.png)
+
+
+### FOR SLAVE VM (192.168.56.107)
+![SLAVEVM](./Slave%20php%20page.png)
+
+
+### FOR LOAD-BALANCER VM (192.168.56.107)
+![MASTERVM](./Load-balancer%20php%20page.png)
 
 
