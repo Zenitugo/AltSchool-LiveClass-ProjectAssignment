@@ -3,13 +3,12 @@
 
 ## STEP 1: VAGRANTFILE 
 
-The vagrant file was created with `vagrant init` command.
-In the file I created two virtual instance named master and slave.
-I also added some configuration to make it work properly, such as setting up hostname, specifying  a private Ip address **(192.168.56.106 for master and 192.168.56.107 for slave)** and a base box**(ubuntu/focal64)** for the VM and also including some commands to run while the shell is being provisioned. This commands includes:
+The deploy.sh script was created t0 initialize vagrant and then `cat` the configurations of the VMs into the Vagrantfile.
+The configurations added to make it work properly were:  setting up a hostname, specifying  a private IP address **(192.168.56.106 for master and 192.168.56.107 for slave)** and a base box**(ubuntu/focal64)** for the VM and also including some commands to run while the shell is being provisioned. These commands include:
 
 - installing `sshpass` to allow to run SSH using the keyboard-interactive password authentication mode, but in a non-interactive way.
 
-- installing `avahi-daemon` and `libnss-mdns`: avahi-daemon was installed to let the master and slave machine find and communicate with each other easily since they are on the same network **(192.168.56.1/24)** while `libnss-mdns` was installed because it can translate user names into ip address. This is because if I ssh into vagrant@slave, it will know ther sever I am trying to reach and bring it up.
+- installing `avahi-daemon` and `libnss-mdns`: avahi-daemon was installed to let the master and slave machine find and communicate with each other easily since they are on the same network **(192.168.56.1/24)** while `libnss-mdns` was installed because it can translate user names into ip address. This is because if I ssh into vagrant@slave, it will know the sever I am trying to reach and bring it up.
 
 
 - Also `apt update` and `apt upgrade was done`
