@@ -1,15 +1,13 @@
-#!/bin/bash
-
-set -e
-
-
-vagrant ssh slave <<EOF
-    echo -e "\n\nUpdating Apt Packages and upgrading latest patches\n"
+#Update Apt Package manager
+    echo -e "\n\nUpdating Apt Package\n"
     sudo apt update -y
+
+ #Installing Apache
     sudo apt install apache2 -y
     echo -e "\n\nAdding firewall rule to Apache\n"
-    sudo ufw allow in "Apache"
-    sudo ufw status
+    sudo ufw allow  "Apache"
+
+ #Installing MySQL
     echo -e "\n\nInstalling MySQL\n"
     sudo apt install mysql-server -y
     echo -e "\n\nPermissions for /var/www\n"
@@ -18,51 +16,18 @@ vagrant ssh slave <<EOF
     sudo apt install php libapache2-mod-php php-mysql -y
     echo -e "\n\nEnabling Modules\n"
     sudo a2enmod rewrite
-    sudo phpenmod mcrypt
-    sudo sed -i 's/DirectoryIndex index.html index.cgi index.pl index.xhtml index.htm/DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm/' /etc/apache2/mods-enabled/dir.conf
-    echo -e "\n\nRestarting Apache\n"
-    sudo systemctl reload apache2
-    echo -e "\n\nLAMP Installation Completed"
-    exit 0
-EOF
+    sudo sed -i 's/DirectoryIndex index.html index.cgi index.pl index.xhtml index.htm/DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.h>
 
+ #To Ensure Apache is running and set to start on boot.
+    echo -e "\n\nStarting Apache\n"
+    sudo systemctl start apache2
+    echo -e "\n\nEnabling Apache to start on boot\n"
+    sudo systemctl enable apache2
 
+#Secure the MySQL installation and initialize it with a default user and password.
+    sudo mysql_secure_installation
 
-vagrant ssh master <<EOF
-    sudo useradd -m -G sudo altschool
-    echo -e "ruby\nruby\n" | sudo passwd altschool
-    sudo usermod -aG sudo altschool
-    sudo -u altschool ssh-keygen -t rsa -b 4096 -f /home/altschool/.ssh/id_rsa -N "" 
-    sudo mkdir -p /home/altschool/accesskeys/altschoolkey.txt
-    sudo cp /home/altschool/.ssh/id_rsa.pub /home/altschool/accesskeys/keys.txt
-    sudo ssh-keygen -t rsa -b 4096 -f /home/vagrant/.ssh/id_rsa -N ""
-    sudo cat /home/vagrant/.ssh/id_rsa.pub | sshpass -p "vagrant" ssh -o StrictHostKeyChecking=no vagrant@192.168.56.107 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys'
-    sudo cat /home/altschool/acceskeys/keys.txt | sshpass -p "vagrant" ssh vagrant@192.168.56.106 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys'
-    sshpass -p "ruby" sudo -u altschool mkdir -p /mnt/altschool/slave
-    sshpass -p "ruby" ssh -o StrictHostKeyChecking=no vagrant@192.168.56.107 "sudo -u altschool scp -r -o StrictHostKeyChecking=no -i /home/vagrant/.ssh/id_rsa -p /mnt/* /home/vagrant/mnt/"
-    exit
-EOF
+#Create a test PHP page
+    echo "<?php phpinfo(); ?>" | sudo tee /var/www/html/test.php
 
-vagrant ssh master <<EOF
-    echo -e "\n\nUpdating Apt Packages and upgrading latest patches\n"
-    sudo apt update -y
-    sudo apt install apache2 -y
-    echo -e "\n\nAdding firewall rule to Apache\n"
-    sudo ufw allow in "Apache"
-    sudo ufw status
-    echo -e "\n\nInstalling MySQL\n"
-    sudo apt install mysql-server -y
-    echo -e "\n\nPermissions for /var/www\n"
-    sudo chown -R www-data:www-data /var/www
-    echo -e "\n\n Permissions have been set\n"
-    sudo apt install php libapache2-mod-php php-mysql -y
-    echo -e "\n\nEnabling Modules\n"
-    sudo a2enmod rewrite
-    sudo phpenmod mcrypt
-    sudo sed -i 's/DirectoryIndex index.html index.cgi index.pl index.xhtml index.htm/DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm/' /etc/apache2/mods-enabled/dir.conf
-    echo -e "\n\nRestarting Apache\n"
-    sudo systemctl reload apache2
-    echo -e "\n\nLAMP Installation Completed"
-    exit 0
-EOF
-
+echo -e "\n\nLAMP Installation Completed"
